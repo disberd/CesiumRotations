@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Include the CesiumJS JavaScript and CSS files -->
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.113/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.113/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <div id="cesiumContainer">
+<div class="custom-widgets">
+    <div id="satellite-position"> 
+        Satellite Position: 
+        <input type="button" class="reset_button"value="Reset"/>
+        <div class="parameter-container" id="latitude">
+            <input type="range" name="latitude-slider" min="-90" max="90" value="0" step = "0.2" />
+            <label for="latitude-slider">Lat (°): </label>
+            <input type="text" name="latitude-text" value="0"/>
+        </div>
+        <div class="parameter-container" id="longitude">
+            <input type="range" name="longitude-slider" min="-180" max="180" value="0" step = "0.2" />
+            <label for="longitude-slider">Lon (°): </label>
+            <input type="text" name="longitude-text" value="0"/>
+        </div>
+    </div>
+    <div id="satellite-attitude"> 
+        Satellite Attitude: 
+        <input type="button" class="reset_button"value="Reset"/>
+        <div class="parameter-container" id="roll">
+            <input type="range" name="roll-slider" min="-180" max="180" value="0" step = "0.2" />
+            <label for="roll-slider">Roll (°): </label>
+            <input type="text" name="roll-text" value="0"/>
+        </div>
+        <div class="parameter-container" id="pitch">
+            <input type="range" name="pitch-slider" min="-180" max="180" value="0" step = "0.2" />
+            <label for="pitch-slider">Pitch (°): </label>
+            <input type="text" name="pitch-text" value="0"/>
+        </div>
+        <div class="parameter-container" id="yaw">
+            <input type="range" name="yaw-slider" min="-180" max="180" value="0" step = "0.2" />
+            <label for="yaw-slider">Yaw (°): </label>
+            <input type="text" name="yaw-text" value="0"/>
+        </div>
+    </div>
+    <div id="antenna-boresight"> 
+        Antenna Boresight: 
+        <input type="button" class="reset_button"value="Reset"/>
+        <div class="parameter-container" id="theta">
+            <input type="range" name="theta-slider" min="0" max="180" value="0" step = "0.2" />
+            <label for="theta-slider">Theta (°): </label>
+            <input type="text" name="theta-text" value="0"/>
+        </div>
+        <div class="parameter-container" id="phi">
+            <input type="range" name="phi-slider" min="-180" max="180" value="0" step = "0.2" />
+            <label for="phi-slider">Phi (°): </label>
+            <input type="text" name="phi-text" value="0"/>
+        </div>
+    </div>
+    <div id="follow-satellite">
+        <label for="follow-satellite">Follow Satellite: </label>
+        <input type="checkbox" name="follow-satellite"/>
+    </div>
+</div>
+  </div>
+  <script type="module" src="main.js">
+  </script>
+ </div>
+</body>
+</html>

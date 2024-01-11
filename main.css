@@ -1,0 +1,24 @@
+.custom-widgets {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: aliceblue;
+    z-index: 10;
+}
+
+.parameter-container input[type=text] {
+    max-width: 30px;
+}
+.parameter-container input[type=range] {
+    max-width: 100px;
+}
+.parameter-container label {
+    display: inline-block;
+    min-width: 65px;
+}
+.reset_button {
+    display: inline-block;
+    /* position: absolute;
+    right: 10px; */
+    margin-left: 20px;
+}
