@@ -167,7 +167,7 @@ function unlockSatellite() {
 window.lockOnSatellite = lockOnSatellite;
 window.unlockSatellite = unlockSatellite;
 
-let follow_camera = false;
+let follow_camera = follow_checkbox.checked;
 
 scene.morphStart.addEventListener(function () {
   follow_camera = false;
@@ -209,6 +209,7 @@ viewer.scene.postUpdate.addEventListener(function (scene, time) {
   Cesium.Cartesian3.cross(direction, up, camera.right);
 });
 
+lockOnSatellite()
 follow_checkbox.oninput = (e) => {
   if (follow_checkbox.checked) {
     follow_camera = true;
