@@ -13,6 +13,11 @@ Cesium.Camera.DEFAULT_VIEW_FACTOR = 1.5;
 // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
 const viewer = new Cesium.Viewer("cesiumContainer", {
   terrain: Cesium.Terrain.fromWorldTerrain(),
+  baseLayer: Cesium.ImageryLayer.fromProviderAsync(
+    Cesium.ArcGisMapServerImageryProvider.fromBasemapType(
+      Cesium.ArcGisBaseMapType.SATELLITE
+    )
+  ),
   timeline: false,
   animation: false,
   creditContainer: document.createElement("none"), // remove the credits container
