@@ -7,6 +7,7 @@ const { html } = await import(
 
 var extent = Cesium.Rectangle.fromDegrees(-2, -2, 2, 2);
 
+
 Cesium.Camera.DEFAULT_VIEW_RECTANGLE = extent;
 Cesium.Camera.DEFAULT_VIEW_FACTOR = 1.5;
 
