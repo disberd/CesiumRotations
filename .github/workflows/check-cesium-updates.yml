@@ -27,11 +27,14 @@ jobs:
         id: check-version
         run: |
           # Get latest Cesium version from npm
-          LATEST_VERSION=$(deno eval "
+          FULL_VERSION=$(deno eval "
             const response = await fetch('https://registry.npmjs.org/cesium/latest');
             const data = await response.json();
             console.log(data.version);
           ")
+          
+          # Remove patch version (e.g., 1.110.1 -> 1.110)
+          LATEST_VERSION=$(echo $FULL_VERSION | sed 's/\.[0-9]*$//')
           
           # Get current version from index.html
           CURRENT_VERSION=$(grep -oP 'releases/\K[0-9.]+(?=/Build/Cesium)' index.html | head -1)
