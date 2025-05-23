@@ -18,25 +18,19 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all history for proper versioning
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
         with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm install axios
+          deno-version: v1.x
 
       - name: Check for Cesium updates
         id: check-version
         run: |
           # Get latest Cesium version from npm
-          LATEST_VERSION=$(node -e "
-            const axios = require('axios');
-            async function getLatestVersion() {
-              const response = await axios.get('https://registry.npmjs.org/cesium/latest');
-              console.log(response.data.version);
-            }
-            getLatestVersion();
+          LATEST_VERSION=$(deno eval "
+            const response = await fetch('https://registry.npmjs.org/cesium/latest');
+            const data = await response.json();
+            console.log(data.version);
           ")
           
           # Get current version from index.html
@@ -47,7 +41,11 @@ jobs:
           
           if [ "$LATEST_VERSION" != "$CURRENT_VERSION" ]; then
             echo "new_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+            echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
             echo "update_needed=true" >> $GITHUB_OUTPUT
+            
+            # Update the version in index.html
+            sed -i "s|releases/$CURRENT_VERSION/Build|releases/$LATEST_VERSION/Build|g" index.html
           else
             echo "update_needed=false" >> $GITHUB_OUTPUT
           fi
