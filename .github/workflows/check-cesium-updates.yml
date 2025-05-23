@@ -65,7 +65,6 @@ jobs:
           branch: update-cesium-version
           base: main
           delete-branch: true
-          labels: dependencies,automated
           commit-message: |
             Update Cesium to version ${{ steps.check-version.outputs.new_version }}
             
