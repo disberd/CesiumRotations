@@ -1,5 +1,10 @@
 name: Check Cesium Updates
 
+# Add permissions configuration
+permissions:
+  contents: write
+  pull-requests: write
+
 on:
   schedule:
     - cron: '0 0 * * *'  # Runs at midnight every day
