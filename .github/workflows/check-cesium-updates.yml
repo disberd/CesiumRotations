@@ -1,0 +1,73 @@
+name: Check Cesium Updates
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs at midnight every day
+  workflow_dispatch:      # Allows manual triggering
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for proper versioning
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install axios
+
+      - name: Check for Cesium updates
+        id: check-version
+        run: |
+          # Get latest Cesium version from npm
+          LATEST_VERSION=$(node -e "
+            const axios = require('axios');
+            async function getLatestVersion() {
+              const response = await axios.get('https://registry.npmjs.org/cesium/latest');
+              console.log(response.data.version);
+            }
+            getLatestVersion();
+          ")
+          
+          # Get current version from index.html
+          CURRENT_VERSION=$(grep -oP 'releases/\K[0-9.]+(?=/Build/Cesium)' index.html | head -1)
+          
+          echo "Current version: $CURRENT_VERSION"
+          echo "Latest version: $LATEST_VERSION"
+          
+          if [ "$LATEST_VERSION" != "$CURRENT_VERSION" ]; then
+            echo "new_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+            echo "update_needed=true" >> $GITHUB_OUTPUT
+          else
+            echo "update_needed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.check-version.outputs.update_needed == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Update Cesium to version ${{ steps.check-version.outputs.new_version }}"
+          body: |
+            This PR updates Cesium from version ${{ steps.check-version.outputs.current_version }} to ${{ steps.check-version.outputs.new_version }}.
+            
+            Changes made:
+            - Updated Cesium.js script source
+            - Updated widgets.css stylesheet source
+          branch: update-cesium-version
+          base: main
+          delete-branch: true
+          labels: dependencies,automated
+          commit-message: |
+            Update Cesium to version ${{ steps.check-version.outputs.new_version }}
+            
+            - Updated Cesium.js script source
+            - Updated widgets.css stylesheet source
+          committer: GitHub Actions <github-actions@github.com>
+          author: GitHub Actions <github-actions@github.com>
+          signoff: true 
