@@ -2,7 +2,7 @@
 // This is the default access token from your ion account
 
 const { html } = await import(
-  "https://cdn.jsdelivr.net/gh/disberd/PlutoDevMacros/src/combine_htl/pluto_compat.js"
+  "https://cdn.jsdelivr.net/gh/disberd/PlutoDevMacros@v0.6.0/src/combine_htl/pluto_compat.js"
 );
 
 var extent = Cesium.Rectangle.fromDegrees(-2, -2, 2, 2);
